@@ -6,6 +6,8 @@ import { ObjectId } from "mongodb";
 
 export const createUser = async (email: string, password: string) => {
     const db = getDB();
+    const usuarioExiste = await db.collection(COLLECTION_USERS).findOne({email});
+    if(usuarioExiste) throw new Error("Ya existe un usuario con dicho email.");
     const toEncriptao = await bcrypt.hash(password, 10);
 
     const result = await db.collection(COLLECTION_USERS).insertOne({

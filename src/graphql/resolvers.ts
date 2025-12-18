@@ -3,7 +3,7 @@ import { createUser, validateUser } from "../collections/users";
 import { signToken } from "../auth";
 import { getDB } from "../db/mongo";
 import { ObjectId } from "mongodb";
-import { addProduct, buyProduct, deleteProduct, getProducts, getProductsById } from "../collections/products";
+import { addProduct, buyProduct, deleteProduct, getProducts, getProductsById, updateProduct } from "../collections/products";
 import { ProductsUser } from "../types";
 import { COLLECTION_PRODUCTS } from "../utils";
 
@@ -33,6 +33,9 @@ export const resolvers: IResolvers = {
         },
         deleteProduct: async (_, {productId}) => {
             return await deleteProduct(productId);
+        },
+        updateProduct: async (_, { productId, name, price, stock}) => {
+            return await updateProduct(productId, name, price, stock);
         },
         register: async (_, { email, password }) => {
             const userId = await createUser(email, password);

@@ -25,5 +25,6 @@ export const typeDefs = gql`
         addProduct(name: String!, price: Float!, stock: Int!): Product!
         buyProduct(productId: ID!): User!
         deleteProduct(productId: ID!): Product!
+        updateProduct(productId: ID!, name: String, price: Float, stock: Int): Product!
     }
 `;

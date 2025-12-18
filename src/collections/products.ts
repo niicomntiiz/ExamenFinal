@@ -62,3 +62,25 @@ export const deleteProduct = async (productId: string) => {
     await db.collection(COLLECTION_PRODUCTS).deleteOne({_id: new ObjectId(productId)});
     return productoEliminar;
 }
+
+export const updateProduct = async (productId: string, name?: string, price?: number, stock?: number) => {
+    const db = getDB();
+    const objectId = new ObjectId(productId);
+
+    const updateFields: any = {};
+    if(name) updateFields.name = name;
+    if(price) updateFields.price = price;
+    if(stock !== undefined) updateFields.stock = stock;
+
+    const existe = await db.collection(COLLECTION_PRODUCTS).findOne({_id: objectId});
+    console.log("¿El producto existe en la BD?:", existe ? "SÍ" : "NO");
+
+    const resultado = await db.collection(COLLECTION_PRODUCTS).findOneAndUpdate(
+        {_id: objectId},
+        {$set: updateFields},
+        {returnDocument: "after"}
+    );
+
+    if(!resultado) throw new Error("El producto no existe");
+    return resultado;
+}
