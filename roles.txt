@@ -1,0 +1,17 @@
+// En createUser de collections/users.ts
+const result = await db.collection(COLLECTION_USERS).insertOne({
+    email,
+    password: toEncriptao,
+    role: "user" // Por defecto todos son users
+});
+
+// En createUser
+const role = email.includes("@admin.com") ? "admin" : "user";
+// ... insertOne({ ..., role })
+
+deleteProduct: async (_, { productId }, { user }) => {
+    if (!user) throw new Error("No loggeado");
+    if (user.role !== "admin") throw new Error("No tienes permisos de administrador");
+    
+    return await deleteProduct(productId);
+},

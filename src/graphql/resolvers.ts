@@ -37,12 +37,12 @@ export const resolvers: IResolvers = {
         updateProduct: async (_, { productId, name, price, stock}) => {
             return await updateProduct(productId, name, price, stock);
         },
-        register: async (_, { email, password }) => {
-            const userId = await createUser(email, password);
+        register: async (_, { email, username, password }) => {
+            const userId = await createUser(email, username, password);
             return signToken(userId);
         },
-        login: async (_, { email, password }) => {
-            const user = await validateUser(email, password);
+        login: async (_, { email, username, password }) => {
+            const user = await validateUser(email, username, password);
             if(!user) throw new Error("Invalid credentials");
             return signToken(user._id.toString());
         }
