@@ -1,31 +1,62 @@
 import { gql } from "apollo-server";
 
 export const typeDefs = gql`
-    type User {
-        _id: ID!
-        email: String!
-        username: String!
-        products: [Product]!
-    }
-    type Product {
-        _id: ID!
-        name: String!
-        price: Float!
-        stock: Int!
+    enum PokemonType {
+        NORMAL
+        FIRE
+        WATER
+        ELECTRIC
+        GRASS
+        ICE
+        FIGHTING
+        POISON
+        GROUND
+        FLYING
+        PSYCHIC
+        BUG
+        ROCK
+        GHOST
+        DRAGON
     }
 
-    type Query {
-        me: User
-        products(page: Int, size: Int): [Product]!
-        product(id: ID!): Product
+    type Pokemon {
+        _id: ID!
+        name: String!
+        description: String!
+        height: Float!
+        weight: Float!
+        types: [PokemonType!]!
+    }
+
+    type OwnedPokemon {
+        _id: ID!
+        #En base datos se guardará solo el id, encadenado pokemon.
+        pokemon: Pokemon!
+        nickname: String
+        attack: Int!
+        defense: Int!
+        speed: Int!
+        special: Int!
+        level: Int!
+    }
+
+    type Trainer {
+        _id: ID!
+        name: String!
+        pokemons: [OwnedPokemon]!
     }
 
     type Mutation {
-        register(email: String!, username: String!, password: String!): String!
-        login(email: String!, username: String!, password: String!): String!
-        addProduct(name: String!, price: Float!, stock: Int!): Product!
-        buyProduct(productId: ID!): User!
-        deleteProduct(productId: ID!): Product!
-        updateProduct(productId: ID!, name: String, price: Float, stock: Int): Product!
+        startJourney(name: String!, password: String!): String!
+        login(name: String!, password: String!): String!
+        createPokemon(name: String!, description: String!, height: Float!, weight: Float!, types: [PokemonType!]!): Pokemon!
+        catchPokemon(pokemonId: ID!, nickname: String): OwnedPokemon!
+        freePokemon(ownedPokemonId: ID!): Trainer!
+    }
+
+    type Query {
+        me: Trainer
+        pokemons(page: Int, size: Int): [Pokemon]!
+        pokemon(id: ID!): Pokemon
     }
 `;

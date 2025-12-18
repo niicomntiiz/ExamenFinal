@@ -17,7 +17,7 @@ const start = async () => {
     },
   });
 
-  await server.listen({ port: 4050 });
+  await server.listen({ port: 4000 });
   console.log("GQL funcionando");
 };
 

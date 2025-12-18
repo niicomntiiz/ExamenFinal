@@ -1,0 +1,12 @@
+    Trainer: {
+        pokemons: async (parent: ProductsUser) => {
+            const db = getDB();
+            const listaDeIdsProductos = parent.products;
+            if(!listaDeIdsProductos) return [];
+            const objectIds = listaDeIdsProductos.map((id) => new ObjectId(id));
+            return db
+                .collection(COLLECTION_POKEMONS)
+                .find({_id: { $in: objectIds}})
+                .toArray()
+        }
+    }

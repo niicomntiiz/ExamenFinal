@@ -4,24 +4,23 @@ import { COLLECTION_USERS } from "../utils";
 import { ObjectId } from "mongodb";
 
 
-export const createUser = async (email: string, username: string, password: string) => {
+export const createUser = async (name: string, password: string) => {
     const db = getDB();
-    const usuarioExiste = await db.collection(COLLECTION_USERS).findOne({email});
-    if(usuarioExiste) throw new Error("Ya existe un usuario con dicho email.");
+    const usuarioExiste = await db.collection(COLLECTION_USERS).findOne({name});
+    if(usuarioExiste) throw new Error("Ya existe un entrenador con dicho nombre.");
     const toEncriptao = await bcrypt.hash(password, 10);
 
     const result = await db.collection(COLLECTION_USERS).insertOne({
-        email,
-        username,
+        name,
         password: toEncriptao
     });
 
     return result.insertedId.toString();
 };
 
-export const validateUser = async (email: string, username: string, password: string) => {
+export const validateUser = async (name: string, password: string) => {
     const db = getDB();
-    const user = await db.collection(COLLECTION_USERS).findOne({email, username});
+    const user = await db.collection(COLLECTION_USERS).findOne({name});
     if( !user ) return null;
 
     const laPassEsLaMismaMismita = await bcrypt.compare(password, user.password);

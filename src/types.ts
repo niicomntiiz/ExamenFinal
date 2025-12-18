@@ -1,6 +1,5 @@
-export type ProductsUser = {
+export type PokemonsUser = {
     _id: string,
-    email: string,
-    username: string,
-    products: string[]
+    name: string,
+    pokemons: string[]
 }
