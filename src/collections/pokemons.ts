@@ -47,12 +47,13 @@ export const catchPokemon = async (pokemonId: string, nickname: string, userId: 
     })
 
     const pokemonAInsertar = await db.collection(COLLECTION_OWNEDPOKEMONS).findOne(newOwnedPokemon.insertedId);
+    console.log(pokemonAInsertar?._id.toString());
 
     if(pokemonCapturar){
         await db.collection(COLLECTION_USERS).updateOne(
             {_id: localUserId},
             {
-                $addToSet: {pokemons: newOwnedPokemon}
+                $addToSet: {pokemons: newOwnedPokemon.insertedId}
             }
         );
         

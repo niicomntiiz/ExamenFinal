@@ -5,7 +5,7 @@ import { getDB } from "../db/mongo";
 import { ObjectId } from "mongodb";
 import { createPokemon, catchPokemon, getPokemons, getPokemonById, freePokemon } from "../collections/pokemons";
 import { PokemonsUser } from "../types";
-import { COLLECTION_POKEMONS } from "../utils";
+import { COLLECTION_OWNEDPOKEMONS, COLLECTION_POKEMONS } from "../utils";
 
 export const resolvers: IResolvers = {
     Query: {
@@ -52,7 +52,7 @@ export const resolvers: IResolvers = {
             if(!listaDeIdsPokemons) return [];
             const pokemonId = listaDeIdsPokemons.map((id) => new ObjectId(id));
             return db
-                .collection(COLLECTION_POKEMONS)
+                .collection(COLLECTION_OWNEDPOKEMONS)
                 .find({_id: { $in: pokemonId}})
                 .toArray()
         }
